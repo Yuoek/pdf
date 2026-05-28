@@ -1,0 +1,108 @@
+\section*{六师数模校赛 2026}
+
+\subsection*{题目}
+\subsubsection*{2026 年六盘水师范学院数学建模竞赛校赛选拔题目及要求}
+六盘水市凭借独特的气候资源，享有 “中国凉都” 的美誉，是国内知名的避暑旅游目的地。近年来，随着国内避暑旅游需求的快速增长，六盘水市的旅游 热点空间格局发生了显著变化。自然避暑资源（如气候、水文、植被）、游客停 留时间、餐饮服务、住宿条件、交通可达性、景观吸引广度等多类要素，共同构 成了避暑旅游热点的复杂系统。这些要素在空间上的耦合协调程度，直接影响着 游客的体验、旅游热点的形成与可持续发展。
+
+实践表明，六盘水市的避暑旅游热点分布与上述要素存在显著的空间关联。例如，部分区域自然避暑资源优越，但因交通不便、配套服务不足，未能形成有 效热点；部分区域虽配套完善，但景观吸引力有限，导致游客停留时间较短，旅 游经济带动效应不强。因此，需要梳理各要素之间的空间耦合关系，识别影响避 暑旅游热点形成与发展的关键因素，对六盘水市优化旅游空间布局、提升避暑旅 游竞争力具有重要的现实意义。
+
+六盘水市各区县的相关数据，包括：自然避暑资源指数（含平均气温、相对湿度、森林覆盖率等）、游客平均停留时长、餐饮服务网点密度、住宿设施接待 能力、交通可达性指数、景观资源吸引力指数，以及各区域的避暑旅游热点热度 数据。同时，数据中存在部分缺失值与测量误差（如统计口径差异、游客填报偏 差等）。请利用附件提供的数据网站建立数学模型，研究以下问题：
+
+问题 1：分析六盘水市避暑旅游热点热度与自然避暑资源、停留时间、餐饮、住宿、交通、景观吸引广度等各指标间的相关性特征，识别影响旅游热点热度的 关键因素，建立相应的影响因素分析模型，并检验模型的显著性。
+
+问题 2：构建六盘水市避暑旅游热点的综合评价模型，量化各区县避暑旅游热点的发展水平与耦合协调程度，并对各区县进行分类评价，分析不同类型区域 的空间分布特征。
+
+问题 3：综合考虑自然避暑资源、配套服务设施、交通条件、景观吸引力等因素，结合评价结果，分析六盘水市避暑旅游热点空间耦合存在的问题；并提出 针对性的优化对策与空间布局方案，为六盘水市避暑旅游高质量发展提供决策参考。
+
+备注: \\
+1、论文题目、摘要、关键字写在论文第一页上，从第二页开始是论文正文。\\
+2、论文从第一页开始编写页码，页码必须位于每页页脚中部，用阿拉伯数字从“1”开始连续编号。\\
+3、论文题目用三号黑体字、一级标题用四号黑体字，并居中;二级、三级标题用小四号黑体字，左端对齐(不居中)。论文中其他汉字一律采用小四号宋体字， 行距用固定 24。\\
+4、电子版论文命名方式:第*组 \_队员1\_队员2\_队员3.pdf，如:第 1 组\_张 1\_张 2\_张 3.pdf. \\
+5、最终电子版 PDF 格式的论文以组为单位；2026 年 5 月 31 日 23：59前发送到指定邮箱:xxxxxxxx@qq.com。 \\
+6、引用别人的成果或其他公开的资料(包括网上查到的资料)必须按照规定的参考文献的表述方式在正文引用处和参考文献中均明确列出。正文引用处用方 括号标示参考文献的编号，如[1][3]等。\\
+7、知网或大雅的查重和 AI 查重均低于 25\%。
+
+\subsubsection*{论文格式(略)}
+
+\subsubsection*{数据收集}
+
+\begin{enumerate}
+  \renewcommand{\labelenumi}{(\arabic*)}   % 自定义编号为 (1)、(2)…
+  \item 六盘水市统计局：\url{http://tjj.gzlps.gov.cn/}
+  \item 经济普查公报：\url{http://tjj.gzlps.gov.cn/bmxxgk/zfxxgk/fdzdgknr/zdly/tjgb_5712552/}
+  \item 六盘水市人民政府网 - 19℃的夏天：\url{https://www.gzlps.gov.cn/zjld/tsld/19ddxt/}
+  \item 水城区政府网 - 投资环境：\url{http://www.shuicheng.gov.cn/newsite/zwgk/yshj/yqjs/}
+  \item 六盘水市文旅局（通过市政府门户网站）：\url{https://www.gzlps.gov.cn/}
+  \item 人民网贵州频道：\url{http://gz.people.com.cn/}
+  \item 国际在线：\url{http://gz.cri.cn/}
+  \item 六盘水市人民政府 - 今日凉都：\url{https://www.gzlps.gov.cn/ywdt/jrld/}
+  \item 其他相关政府、媒体网站均可获取数据
+\end{enumerate}
+
+\section*{问题分析}
+\subsection*{数据处理}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{(\alph*)}
+  \item 缺值：中位数 \& 平均数，K 近邻，分级
+  \item 标准化：单位、连续(Z-score)、指数(区间)
+  \item 异常：箱线图
+\end{enumerate}
+\subsubsection*{缺值}
+\subsubsection*{标准化}
+\subsubsection*{异常}
+
+\subsection*{相关性分析}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{(\arabic*)}
+  \item 计算相关性
+    \begin{enumerate}
+      \renewcommand{\labelenumi}{(\alph*)}
+      \item 连续：Pearson(线性)，Spearman(非线性)
+      \item 分类：Carmer's V 系数，卡方
+    \end{enumerate}
+  \item 多重共线检测: 计算方差膨胀因子(VIF)
+  \item 可视化
+\end{enumerate}
+\subsubsection*{计算相关性}
+连续数据，分类数据
+\subsubsection*{多重化共线检测}
+\subsubsection*{可视化}
+
+\subsection*{模型选择}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{(\arabic*)}
+  \item 多元线性回归
+  \item 地理加权回归(GWR)
+  \item 随机森林/梯度提升树
+\end{enumerate}
+\subsubsection*{多元线性回归}
+\subsubsection*{地理加权回归(GWR)}
+\subsubsection*{随机森林/梯度提升树}
+
+\subsection*{模型结果检验与解读}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{(\arabic*)}
+  \item 线性回归
+  \item GWR
+\end{enumerate}
+
+线性回归， GWR。
+
+\subsection*{参考文献与资料}
+\begin{enumerate}
+  \renewcommand{\labelenumi}{(\alph*)}
+  \item 崔波,杨永丰,张孝帝. 城市轨道交通与旅游景区的空间关联性及其优化路径分析——以重庆市中心城区为例[J]. 黑龙江科学,2024,15(5):12-17,21. DOI:10.3969/j.issn.1674-8646.2024.05.003. 
+  \item OpenStreet - Map: \url{https://download.geofabrik.de/asia/china-latest.osm.pbf}
+  \item 张强,丁娟,赵红艳. 基于POI数据的旅游产业空间分布及关联性分析——以环巢湖为例[J]. 合肥学院学报（综合版）,2024,41(1):104-111. DOI:10.3969/j.issn.1673-162X.2024.01.017.
+\item 高德地图poi 接口: \url{https://lbs.amap.com/api/webservice/guide/api-advanced/search}
+\item 高德地图poi 教程：\url{https://zhuanlan.zhihu.com/p/660235259}
+  \item 杜志强,李钰. 旅游产业空间分布及关联性分析方法——以常州市为例[J]. 地理信息世界,2019,26(3):25-30. DOI:10.3969/j.issn.1672-1586.2019.03.005.
+  \item 方远平,谢蔓,毕斗斗,等. 中国入境旅游的空间关联特征及其影响因素探析——基于地理加权回归的视角[J]. 旅游科学,2014,28(3):22-35. DOI:10.3969/j.issn.1006-575X.2014.03.003.
+  \item 王俊,夏杰长. 中国省域旅游经济空间网络结构及其影响因素研究——基于QAP方法的考察[J]. 旅游学刊,2018,33(9):13-25. DOI:10.3969/j.issn.1002-5006.2018.09.007.
+  \item 朱加爽,代稳,刘安乐. 贵州西北部乡村旅游地空间分布及影响因素研究[J]. 六盘水师范学院学报,2025,37(5):40-55. DOI:10.16595/j.1671-055X.2025.05.005.
+  \item 朱殊慧,梅再美,吴克华,等. 贵州省旅游景区空间分布格局及影响因素分析[J]. 贵州科学,2018,36(6):49-54. DOI:10.3969/j.issn.1003-6563.2018.06.010.
+  \item 杨植丹,姚建盛,刘艳玲. 桂北地区红色旅游资源空间分布特征及影响因素研究[J]. 平顶山学院学报,2025,40(5):72-79. DOI:10.3969/j.issn.1673-1670.2025.05.012.
+\end{enumerate}
+
+

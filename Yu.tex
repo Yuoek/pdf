@@ -1,12 +1,18 @@
 \documentclass[UTF8, a4paper, 12pt]{ctexart}
+\usepackage{amsmath} 
+\usepackage{cclicenses}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue} % 让链接变成蓝色，更清晰
 \usepackage{geometry}
 \geometry{margin=2.5cm}
-\usepackage{enumitem}
+\usepackage{rotating}
 \usepackage{tocloft}
 \usepackage{xcolor}
-\usepackage{amsmath} % 必须加载宏包
-\usepackage{rotating}
-\usepackage{cclicenses}
+\usepackage{url}
+\usepackage{ragged2e}
+% 全文列表/段落宽松断行，根治小幅溢出
+\RaggedRight
  
  
 
@@ -22,7 +28,8 @@
 \renewcommand{\cftsecfont}{\bfseries}
 
 
-\title{\Large Yuoek Notebooks}
+% 封面
+\title{\Large Yuoek's Notebooks}
 \author{Yuoek}
 \date{\today}
 
@@ -32,32 +39,43 @@
 \maketitle
 \clearpage
 
-\tableofcontents
-\clearpage
 
+% 内页
 \thispagestyle{empty}
 \vspace*{\fill}
 \begin{center}
     \textcolor{blue}{\Huge\textbf{May}} \\[1em]
-    \textcolor{blue!60!black}{\Large Life is beautifuler} \\[2em]
+    \textcolor{blue!60!black}{\Large Life is Beautifuler} \\[2em]
     \textcolor{gray}{\large 遇光见影，遇你见爱！} \\[1em]
     \today
 \end{center}
+
+% 目录页
 \vspace*{\fill}
 \clearpage
+\tableofcontents
+% \clearpage
+% \vspace*{\fill}
 
-% TODO
-\input{life/todo/day/5/26.tex}
+% 摘要
 \clearpage
+\thispagestyle{empty}
+\input{headpage.tex}
 
-% Quote
-\input{film/quote/day/dayYu.tex}
-\clearpage
-\input{film/quote/day/5/27.tex}
-\clearpage
 
-\input{life/draft/draft.tex}
+% Life
 \clearpage
+\thispagestyle{empty}
+\input{life/lifeYu.tex}
+\input{film/filmYu.tex}
+\input{science/scienceYu.tex}
+
+% 结语
+\clearpage
+\thispagestyle{empty}
+\input{footpage.tex}
+\clearpage
+\thispagestyle{empty}
 
 \end{document}
 
