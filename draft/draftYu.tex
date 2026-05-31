@@ -1,0 +1,42 @@
+
+\subsection{draft}
+
+\lstset{language=Python} % 临时切换语言
+\begin{lstlisting}
+def func(x):
+    return x ** 2 + 1
+
+if __name__ == "__main__":
+    print(func(5))
+\end{lstlisting}
+
+
+\begin{lstlisting}
+#include <stdio.h> /*@ \info{引用头文件} @*/
+int main() {
+  printf/*@\unsure{printf 输出函数}\unsure{注意格式化字符串要和数据匹配}@*/("Dear Sophiw. 你好呀！"); 
+
+  return 0;
+}
+\end{lstlisting}
+
+
+\pagestyle{empty}
+
+% 内联todo改为单行，移除 \newline
+\todo[inline]{The original todo note with changed colours. Here's another line.}
+
+\lipsum[1]\unsure{Is this correct?}\unsure{I'm unsure about also!}
+\lipsum[1]\change{Change this!}
+\lipsum[11]\info{This can help me in chapter seven!}
+
+% 普通todo用垂直间距替代连续换行，消除警告
+\lipsum[11]\improvement{This really needs to be improved!\vspace{-1em}What was I thinking?!}
+
+\lipsum[11]
+\thiswillnotshow{This is hidden since option 'disable' is chosen}
+\improvement[inline]{The following section needs to be rewritten!}
+\lipsum[11]
+
+
+

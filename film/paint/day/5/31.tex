@@ -1,0 +1,156 @@
+\subsubsection{tikz}
+
+\def\angle{70} % launch angle
+\def\v{6}   % initial velocity
+\def\g{9.8} % gravitational acceleration
+\def\r{0.1} % ball radius
+
+\begin{center}
+\resizebox{0.5\textwidth}{!}{
+\begin{tikzpicture}[
+    scale=2.5,
+    axis/.style={-stealth, thick},
+    every node/.style={font=\small},
+]
+
+
+    \pgfmathsetmacro{\tGround}{{2*\v*sin(\angle)/\g}}
+    \newcommand{\Ballx}[1]{{\v*#1*\tGround*cos(\angle)}}
+    \newcommand{\Bally}[1]{{-0.5*\g*#1*#1*\tGround*\tGround+\v*#1*\tGround*sin(\angle)}}
+    
+    % Axis
+    \draw[axis] (-0.3,0) -- ($1.2*(\Ballx{1},0)$) node[right] {$x$};
+    \draw[axis] (0,-0.3) -- ($1.2*(0,\Bally{0.5})$) node[above] {$y$};
+
+    % Angle
+    \filldraw[opacity=0.5] (\r*1.6,0) arc(0:\angle:\r*1.6)node[opacity=1,midway,above right]{$\theta$} -- (0,0) -- cycle;
+
+    % Ball
+    \newcommand{\DrawBall}[2][black]{
+        \filldraw[ball color=#1!50!] (\Ballx{#2},\Bally{#2}) circle(\r);
+        \draw[-stealth,#1] (\Ballx{#2},\Bally{#2})
+            --++({0.1*\v*cos(\angle)}, {-0.1*\g*#2*\tGround + 0.1*\v*sin(\angle)}); % velocity
+    }
+
+    \foreach \t in {0,0.2,0.8,1} {
+        \DrawBall[black]{\t}
+    }
+    
+    \draw[densely dotted] (\Ballx{0.2},0) node[below] {$x=v_0t\cos\theta$}
+        -- (\Ballx{0.2},\Bally{0.2})
+        -- (0,\Bally{0.2}) node[left] {$\displaystyle y=-\frac{1}{2}gt^2+v_0t\sin\theta$};
+    
+    \DrawBall[red]{0.5}
+    
+    % Trajectory
+    \draw[samples=256,densely dotted,domain=0:1,variable=\t] plot(\Ballx{\t},\Bally{\t});
+    % 关键：在图片正下方添加说明文字（相对图片居中）
+    \node[align=center,yshift=-3.5em,font=\small] at ($(\Ballx{1},0)!0.5!(0,0)$)
+        {抛体运动轨迹示意图};
+
+\end{tikzpicture}
+ }
+
+\end{center}
+
+
+
+\subsection*{cal}
+
+\begin{center}
+\resizebox{0.5\textwidth}{!}{
+\begin{tikzpicture}
+  \calendar
+  [
+    dates=\year-\month-\day+-25 to \year-\month-\day+25,
+    week list,inner sep=2pt,month label above centered,
+    month text=\textit{\%mt \%y0}
+  ]
+  if (at least=\year-\month-\day) {}
+    else [nodes={strike out,draw}]
+  if (at most=\year-\month-\day+7)
+    [green!50!black]
+  if (between=\year-\month-\day+8 and \year-\month-\day+10)
+    [red]
+  if (Sunday)
+    [gray,nodes={draw=none}]
+  ;
+\end{tikzpicture}
+}
+\end{center}
+
+
+\subsubsection{polar axes}
+\begin{center}
+\resizebox{0.8\textwidth}{!}{
+\tikz[baseline] \datavisualization [
+  scientific axes={clean},
+  x axis={attribute=angle, ticks={minor steps between steps=4}},
+  y axis={attribute=radius, ticks={some, style=red!80!black}},
+  all axes=grid,
+  visualize as smooth line=sin]
+  data [format=function] {
+    var t : interval [-3:3];
+    func angle = exp(\value t);
+    func radius = \value{t}*\value{t};
+  };
+\qquad
+\tikz[baseline] \datavisualization [
+  scientific polar axes={right half clockwise, clean},
+  angle axis={logarithmic,
+    ticks={
+      minor steps between steps=8,
+      major also at/.list={2,3,4,5,15,20}}},
+  radius axis={ticks={some, style=red!80!black}},
+  all axes=grid,
+  visualize as smooth line=sin]
+  data [format=function] {
+    var t : interval [-3:3];
+    func angle = exp(\value t);
+    func radius = \value{t}*\value{t};
+  };
+}
+\end{center}
+
+\subsubsection*{tikzdatavisualizationset}
+\tikzdatavisualizationset {
+  example visualization/.style={
+    scientific axes=clean,
+    y axis={ticks={style={
+          /pgf/number format/fixed,
+          /pgf/number format/fixed zerofill,
+          /pgf/number format/precision=2}}},
+    x axis={ticks={tick suffix=${}^\circ$}},
+    1={label in legend={text=$\frac{1}{6}\sin 11x$}},
+    2={label in legend={text=$\frac{1}{7}\sin 12x$}},
+    3={label in legend={text=$\frac{1}{8}\sin 13x$}},
+    4={label in legend={text=$\frac{1}{9}\sin 14x$}},
+    5={label in legend={text=$\frac{1}{10}\sin 15x$}},
+    6={label in legend={text=$\frac{1}{11}\sin 16x$}},
+    7={label in legend={text=$\frac{1}{12}\sin 17x$}},
+    8={label in legend={text=$\frac{1}{13}\sin 18x$}}
+  }
+}
+
+% 定义共用数据集 sin functions
+\tikz \datavisualization data group {sin functions} = {
+  data [format=function] {
+    var set : {1,...,8};
+    var x : interval [0:50];
+    func y = sin(\value x * (\value{set}+10))/(\value{set}+5);
+  }
+};
+
+\subsubsection*{vary thickness}
+\begin{center}
+\resizebox{0.8\textwidth}{!}{
+\begin{tikzpicture}
+\datavisualization [
+  visualize as smooth line/.list={1,2,3,4,5,6,7,8},
+  example visualization,
+  style sheet=vary thickness
+]
+data group {sin functions};
+\end{tikzpicture}
+}
+\end{center}

@@ -1,0 +1,117 @@
+\documentclass[UTF8, a4paper, 12pt]{ctexart}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in} % 提前设置页边距，避免 todonotes 警告
+\usepackage{amsmath} 
+\usepackage{esint} 
+\usepackage{cmupint} 
+\usepackage{turnstile} 
+\usepackage{stix2} 
+\usepackage{cclicenses}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue} % 让链接变成蓝色，更清晰
+\usepackage{rotating}
+\usepackage{tocloft}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{ragged2e}
+% 全文列表/段落宽松断行，根治小幅溢出
+\RaggedRight
+\usepackage{listings}    % 代码块核心包
+ 
+% 全局样式配置
+\lstset{
+    language=C,        % 指定语言：Python/Java/C/JavaScript 等
+    % basicstyle=\ttfamily,% 等宽字体
+    numbers=left,        % 行号在左侧
+    numberstyle=\tiny,    % 行号字体大小
+    frame=single,         % 单边框
+    breaklines=true,      % 自动换行
+    keywordstyle=\color{blue},    % 关键字颜色
+    stringstyle=\color{red},      % 字符串颜色
+    commentstyle=\color{green!60},% 注释颜色
+    showspaces=false,      % 不显示空格
+    showstringspaces=false
+}
+
+% 全局列表配置
+\setlist[itemize]{
+    leftmargin=*,
+    nosep,
+    topsep=0pt,
+    partopsep=0pt
+}
+
+\usepackage{lipsum}       % 生成测试文本
+\usepackage{xargs}        % 支持带多个可选参数的新命令
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\setlength {\marginparwidth }{2cm}
+% 只在主文件定义一次自定义 todo 命令
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+
+
+% 目录章节加粗
+\renewcommand{\cftsecfont}{\bfseries}
+
+
+% 封面
+\title{\Large Yuoek's Notebooks}
+\author{Yuoek}
+\date{\today}
+
+\begin{document}
+
+\thispagestyle{empty}
+\maketitle
+\clearpage
+
+
+% 内页
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+    \textcolor{blue}{\Huge\textbf{May}} \\[1em]
+    \textcolor{blue!60!black}{\Large Life is Beautifuler} \\[2em]
+    \textcolor{gray}{\large 遇光见影，遇你见爱！} \\[1em]
+    \today
+\end{center}
+
+% 目录页
+\vspace*{\fill}
+\clearpage
+\tableofcontents
+% \clearpage
+% \vspace*{\fill}
+
+% 摘要
+\clearpage
+\thispagestyle{empty}
+\input{headpage.tex}
+
+
+% Life
+\clearpage
+\thispagestyle{empty}
+\input{life/lifeYu.tex}
+\input{film/filmYu.tex}
+\input{science/scienceYu.tex}
+% \input{draftYu.tex}
+
+% 结语
+\clearpage
+\thispagestyle{empty}
+\input{footpage.tex}
+\clearpage
+\thispagestyle{empty}
+
+\end{document}
+
+
+
+
+

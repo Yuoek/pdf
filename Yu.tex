@@ -1,37 +1,95 @@
 \documentclass[UTF8, a4paper, 12pt]{ctexart}
+\usepackage{fontspec}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlength{\marginparwidth}{2cm} % 解决 todonotes 边距警告
+
+
+% tikz
+\usepackage{tikz}
+\usetikzlibrary{
+    calc,
+    calendar,
+    shapes.misc,
+    positioning,
+    backgrounds,
+    shadings,
+    shapes.arrows,
+    shapes.symbols,
+    shadows,
+    datavisualization.formats.functions,
+    datavisualization.polar
+}
+
 \usepackage{amsmath} 
+\usepackage{esint} 
+\usepackage{cmupint} 
+\usepackage{turnstile} 
+% \usepackage{stix2} 
 \usepackage{cclicenses}
 \usepackage{enumitem}
-\usepackage{hyperref}
-\hypersetup{colorlinks=true, urlcolor=blue} % 让链接变成蓝色，更清晰
-\usepackage{geometry}
-\geometry{margin=2.5cm}
 \usepackage{rotating}
 \usepackage{tocloft}
 \usepackage{xcolor}
-\usepackage{url}
+\usepackage{xurl}
 \usepackage{ragged2e}
-% 全文列表/段落宽松断行，根治小幅溢出
-\RaggedRight
- 
- 
+\RaggedRight % 宽松断行，消除内容溢出
 
-% 全局列表配置
+% 代码块 listings
+\usepackage{listings}    
+\lstset{
+    language=C,
+    basicstyle=\ttfamily,       % 必须使用等宽字体
+    columns=flexible,
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{green!60},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    % 代码块转译
+    escapeinside={/*@}{@*/}
+}
+
+% 全局列表样式
 \setlist[itemize]{
     leftmargin=*,
+    itemindent=0pt,
     nosep,
     topsep=0pt,
     partopsep=0pt
 }
 
+% todonotes 相关
+\usepackage{lipsum}
+\usepackage{xargs}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+% 自定义 todo 命令（仅此处定义一次）
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
 % 目录章节加粗
 \renewcommand{\cftsecfont}{\bfseries}
 
+% 超链接（放所有宏包末尾）
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue}
 
-% 封面
+% 封面信息
 \title{\Large Yuoek's Notebooks}
 \author{Yuoek}
-\date{\today}
+\date{2026-06-01}
+% \date{\today}
 
 \begin{document}
 
@@ -39,36 +97,40 @@
 \maketitle
 \clearpage
 
-
-% 内页
+% 过渡内页
 \thispagestyle{empty}
 \vspace*{\fill}
 \begin{center}
-    \textcolor{blue}{\Huge\textbf{May}} \\[1em]
-    \textcolor{blue!60!black}{\Large Life is Beautifuler} \\[2em]
+    \textcolor{purple}{\Huge\textbf{六月 June}} \\[1em]
+    \textcolor{purple!60!black}{\Large Size Every Opportunity To Grow.} \\[2em]
     \textcolor{gray}{\large 遇光见影，遇你见爱！} \\[1em]
     \today
 \end{center}
 
-% 目录页
+% 目录
 \vspace*{\fill}
 \clearpage
 \tableofcontents
-% \clearpage
-% \vspace*{\fill}
+
 
 % 摘要
 \clearpage
 \thispagestyle{empty}
 \input{headpage.tex}
 
-
-% Life
+% 各模块内容
 \clearpage
 \thispagestyle{empty}
 \input{life/lifeYu.tex}
 \input{film/filmYu.tex}
 \input{science/scienceYu.tex}
+
+% Draft
+\clearpage
+\thispagestyle{empty}
+\input{draft/draftYu.tex}
+\clearpage
+\thispagestyle{empty}
 
 % 结语
 \clearpage
@@ -77,9 +139,7 @@
 \clearpage
 \thispagestyle{empty}
 
+
+
+
 \end{document}
-
-
-
-
-

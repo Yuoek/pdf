@@ -1,0 +1,21 @@
+
+\subsection{draft}
+\pagestyle{empty}
+
+% 内联todo改为单行，移除 \newline
+\todo[inline]{The original todo note with changed colours. Here's another line.}
+
+\lipsum[1]\unsure{Is this correct?}\unsure{I'm unsure about also!}
+\lipsum[1]\change{Change this!}
+\lipsum[11]\info{This can help me in chapter seven!}
+
+% 普通todo用垂直间距替代连续换行，消除警告
+\lipsum[11]\improvement{This really needs to be improved!\vspace{1em}What was I thinking?!}
+
+\lipsum[11]
+\thiswillnotshow{This is hidden since option 'disable' is chosen}
+\improvement[inline]{The following section needs to be rewritten!}
+\lipsum[11]
+
+\newpage
+\listoftodos[Notes]

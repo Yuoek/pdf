@@ -1,0 +1,116 @@
+
+\documentclass[UTF8, a4paper, 12pt]{ctexart}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlength{\marginparwidth}{2cm} % 解决 todonotes 边距警告
+
+\usepackage{amsmath} 
+\usepackage{esint} 
+\usepackage{cmupint} 
+\usepackage{turnstile} 
+\usepackage{stix2} 
+\usepackage{cclicenses}
+\usepackage{enumitem}
+\usepackage{rotating}
+\usepackage{tocloft}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{ragged2e}
+\RaggedRight % 宽松断行，消除内容溢出
+
+% 代码块 listings
+\usepackage{listings}    
+\lstset{
+    language=C,
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{green!60},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
+}
+
+% 全局列表样式
+\setlist[itemize]{
+    leftmargin=*,
+    nosep,
+    topsep=0pt,
+    partopsep=0pt
+}
+
+% todonotes 相关
+\usepackage{lipsum}
+\usepackage{xargs}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+% 自定义 todo 命令（仅此处定义一次）
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+% 目录章节加粗
+\renewcommand{\cftsecfont}{\bfseries}
+
+% 超链接（放所有宏包末尾）
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue}
+
+% 封面信息
+\title{\Large Yuoek's Notebooks}
+\author{Yuoek}
+\date{\today}
+
+\begin{document}
+
+\thispagestyle{empty}
+\maketitle
+\clearpage
+
+% 过渡内页
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+    \textcolor{blue}{\Huge\textbf{May}} \\[1em]
+    \textcolor{blue!60!black}{\Large Life is Beautifuler} \\[2em]
+    \textcolor{gray}{\large 遇光见影，遇你见爱！} \\[1em]
+    \today
+\end{center}
+
+% 目录
+\vspace*{\fill}
+\clearpage
+\tableofcontents
+
+% 摘要
+\clearpage
+\thispagestyle{empty}
+\input{headpage.tex}
+
+% 各模块内容
+\clearpage
+\thispagestyle{empty}
+\input{life/lifeYu.tex}
+\input{film/filmYu.tex}
+\input{science/scienceYu.tex}
+
+% 引入 todo 独立文件
+\clearpage
+\input{todo.tex}
+
+% 结语
+\clearpage
+\thispagestyle{empty}
+\input{footpage.tex}
+\clearpage
+\thispagestyle{empty}
+
+\end{document}
