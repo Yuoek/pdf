@@ -1,13 +1,25 @@
 \documentclass[UTF8, a4paper, 12pt]{ctexart}
-\usepackage{fontspec}
+% \usepackage{fontspec}
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
 \setlength{\marginparwidth}{2cm} % 解决 todonotes 边距警告
 
 
+% picture
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption} % 子图首选，无冲突
+\graphicspath{{./source/fig/}}   % 图片路径
+% mp3
+\usepackage{media9}
+
+
 % tikz
+
+\usepackage{pifont}
 \usepackage{tikz}
 \usetikzlibrary{
+    trees,
     calc,
     calendar,
     shapes.misc,

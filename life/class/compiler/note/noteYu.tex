@@ -1,0 +1,514 @@
+\section*{编译原理笔记}
+
+\subsection*{语言的文法}
+
+\subsection*{短语到句柄}
+\textbf{语法树 最左推导 最右推导 短语 直接短语 素语句柄} \par
+最左推导: 见左拆左。 \par
+最右推导: 见右拆右。 \par
+句型: 一棵语法树对应的整串符号。 \par
+短语: 任意一棵子树的全部叶子节点串。 \par
+直接短语: 子树只有父子两层(层深度只有 2), 并且子层为叶子节点。 \par
+素短语: 子树至少包含一个终结符, 并且只有一个短语, 其内部不再包含更小的素短语。 \par
+句柄: 句型最左边那个直接短语。 \par
+\par
+例：\par
+文法 \( G[E]: E \to E+E \mid E*E \mid (E) \mid i \), 字符串: i+i*i \par
+最左推导: \( E \to E+E \to i+E \to i+E*E \to i+i*E \to i+i*i \) \par
+最右推导: \( E \to E+E \to E+E*E \to E+E*i \to E+i*i \to i+i*i \) \par
+
+\begin{tikzpicture}[level distance=1.2cm,sibling distance=1cm]
+% 左语法树：E→E+E, 右E→E*E
+\node{E}
+child{node{E} child{node{i}}}
+child{node{$+$}}
+child{node{E}
+    child{node{E} child{node{i}}}
+    child{node{$*$}}
+    child{node{E} child{node{i}}}
+};
+\end{tikzpicture}
+\hspace{3cm}
+\begin{tikzpicture}[level distance=1.2cm,sibling distance=1cm]
+% 右语法树：E→E+E, 右E→E*E
+\node{E}
+child{node{E} child{node{i}}}
+child{node{$+$}}
+child{node{E}
+    child{node{E} child{node{i}}}
+    child{node{$*$}}
+    child{node{E} child{node{i}}}
+};
+\end{tikzpicture}
+
+\todo[inline]{注, 如果最左推导和最右推导画出来两个语法树不同, 则有二义性, 相同则无二义性, 如上图所示。}
+
+短语: i+i*i, i*i, i \par
+直接短语：i \par
+素短语: i \par
+句柄: i \par
+
+\subsubsection*{消除左递归}
+
+\( A \to A\alpha \mid \beta \quad \text{化为}
+\begin{cases}
+A \to \beta A' \\
+A' \to \alpha A' \mid \varepsilon
+\end{cases} \)
+\hspace{3cm}
+\( (\alpha,\beta \text{为任意字符串}) \)
+\todo[inline]{产生式有两条选择: 一个生成 \( \beta \), 一个生成 \( \alpha \), \( \alpha \) 不断进行循环, 生成无数个 \( \alpha \), 因此最终生成 \( \beta \dot{\alpha} \)} \par
+
+\[
+\begin{aligned}
+\text{例1：}G(E)\quad
+\begin{cases}
+E\to E+T\mid T\\
+T\to T*F\mid F\\
+F\to (E)\mid i
+\end{cases}
+\Rightarrow
+\begin{cases}
+E\to TE' \\
+E'\to +TE'\mid \varepsilon \\
+T\to FT' \\
+T'\to *FT'\mid \varepsilon \\
+F\to (E)\mid i
+\end{cases}
+\end{aligned}
+\]
+
+\subsubsection*{提取公因式}
+
+\[
+A \to \delta\beta_1 \mid \delta\beta_2 \mid \dots \mid \delta\beta_i \mid \gamma_1 \mid \gamma_2 \mid \dots \mid \gamma_j
+\quad \text{化为}
+\begin{cases}
+A \to \delta A' \mid \gamma_1 \mid \gamma_2 \mid \dots \mid \gamma_j \\
+A' \to \beta_1 \mid \beta_2 \mid \dots \mid \beta_i
+\end{cases}
+\]
+
+
+\[
+\begin{aligned}
+&\text{例1：已知文法} \\
+&G(A):
+\begin{cases}
+A \to aAB \mid a \\
+B \to Bb \mid d
+\end{cases}
+\quad\Downarrow\\[6pt]
+&\begin{aligned}
+A &\to aA' \quad &A' \to AB \mid \varepsilon \\
+B &\to dB' \quad &B' \to bB' \mid \varepsilon
+\end{aligned}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\text{例2：}\\
+&G[A]:\ A \to aAB \mid a \mid b
+\quad\Downarrow\\[4pt]
+&\begin{aligned}
+A &\to aA' \mid b \\
+A' &\to AB \mid \varepsilon
+\end{aligned}
+\end{aligned}
+\]
+
+\subsection{FIRST FOLLOW}
+First集: 看产生式左边。 \par
+Follow集: 看产生式右边。 
+\[
+\begin{cases}
+\text{以 \# 开头.} \\
+\text{若非终结符后面为空，则将推导式左边加入 Follow 集.} \\
+\text{若非终结符后面不为空，如果不为空为终结符，直接将终结符加入，如果不为空为非终结符，则将该非终结符的 First 集加入，且该 FIRST 集不包含空串.}
+\end{cases}
+\]
+
+\[
+\begin{aligned}
+&\textbf{例1：} \\
+&G[S]:
+\begin{cases}
+S\to aH \\
+H\to aMd \mid d \\
+M\to Ab \mid \varepsilon \\
+A\to aM \mid e
+\end{cases}
+\quad
+&\begin{aligned}
+&\textbf{First集} \\
+&\text{First}(S)=\{a\} \\
+&\text{First}(H)=\{a,d\} \\
+&\text{First}(M)=\{\varepsilon\}\cup\text{First}(A)=\{a,e,\varepsilon\} \\
+&\text{First}(A)=\{a,e\}
+\end{aligned}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\textbf{例2：} \\
+&G(E):
+\begin{cases}
+E\to TE' \\
+E'\to +E \mid \varepsilon \\
+T\to FT' \\
+T'\to T \mid \varepsilon \\
+F\to PF' \\
+F'\to *F' \mid \varepsilon \\
+P\to (E)\mid a\mid b\mid \Lambda
+\end{cases}
+\quad
+\begin{aligned}
+&\text{First}(E)=\{(,a,b,\Lambda\} \\
+&\text{First}(E')=\{+,\varepsilon\} \\
+&\text{First}(T)=\{(,a,b,\Lambda\} \\
+&\text{First}(T')=\{(,a,b,\Lambda,\varepsilon\} \\
+&\text{First}(F)=\{(,a,b,\Lambda\} \\
+&\text{First}(F')=\{*,\varepsilon\} \\
+&\text{First}(P)=\{(,a,b,\Lambda\}
+\end{aligned}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\textbf{例3：} \\
+&\text{求例1中文法的Follow集} \\
+&\text{Follow}(S)=\{\#\} \\
+&\text{Follow}(H)=\{\#\} \\
+&\text{Follow}(M)=\{d\}\cup\text{Follow}(A)=\{d,b\} \\
+&\text{Follow}(A)=\{b\}
+\end{aligned}
+\]
+
+
+\[
+\begin{aligned}
+&\textbf{例4：}\quad\text{求例2中文法的Follow集}
+\quad
+\begin{cases}
+E\to \varepsilon \\
+T'\to \varepsilon \\
+F'\to \varepsilon
+\end{cases}\\[4pt]
+&\text{Follow}(E)=\{\#,\,) \\
+&\text{Follow}(E')=\{\#,\,) \\
+&\text{Follow}(T)=\{+,\#,\,) \\
+&\text{Follow}(T')=\{+,\#,\,) \\
+&\text{Follow}(F)=\{(,a,b,\Lambda,+,\#,\,) \\
+&\text{Follow}(F')=\{(,a,b,\Lambda,+,\#,\,) \\
+&\text{Follow}(P)=\{*,(,a,b,+,\Lambda,\#,\,)
+\end{aligned}
+\]
+
+\subsection*{DFA 转换}
+
+\subsection*{LL(1)}
+
+
+消除左递归 提取公因式  \par
+求 FIRST FOLLOW 集  \par
+画分析表(行非终结, 列终结, 空跟 FOLLOW, 不空跟 FIRST)  \par
+判断 LL(1)(不空取First, 含空要并Follow, 同左Select不交, 就是LL(1)) \par
+分析过程(符号栈  输入符号  剩余符号, 符号栈非终结替换, 右部反过来写)   \par
+
+\[
+\begin{aligned}
+&\textbf{例1：已知文法 }G[A]:
+\begin{cases}
+A\to aAB \mid a \\
+B\to Bb \mid d
+\end{cases}\\[4pt]
+&\text{求 }G[A]\text{ 等价的 LL(1)文法 }G'[A]\\[4pt]
+&\text{过程：先消除左递归和回溯，得到改造后的文法 }G'(A)\\
+&\begin{aligned}
+A &\to aA' \\
+A' &\to AB \mid \varepsilon \\
+B &\to dB' \\
+B' &\to bB' \mid \varepsilon
+\end{aligned}
+\end{aligned}
+\]
+
+
+\[
+\begin{aligned}
+&\text{再求First集和Follow集}\\[4pt]
+&\begin{array}{ll}
+\text{First}(A)=\{a\} & \text{Follow}(A)=\{\#,d\} \\
+\text{First}(A')=\{a,\varepsilon\} & \text{Follow}(A')=\{\#,d\} \\
+\text{First}(B)=\{d\} & \text{Follow}(B)=\{\mid\} \\
+\text{First}(B')=\{b,\varepsilon\} & \text{Follow}(B')=\{\mid\}
+\end{array}\\[6pt]
+&\text{最后构造 }G'[A]\text{ 的LL(1)分析表}\quad \text{行：非终结符，列：终结符}\\[4pt]
+&\begin{array}{c|ccccc}
+ & a & b & \mid & d & \# \\
+\hline
+A & A\to aA' & & & & \\
+A' & A'\to AB\mid & & & A'\to\varepsilon & A'\to\varepsilon \\
+B & & & & B\to dB' & \\
+B' & & B'\to bB' & B'\to\varepsilon & &
+\end{array}
+\end{aligned}
+\]
+
+
+\[
+\begin{aligned}
+&\text{对于推导式 }X\to?,\text{ 若推导式右侧结果为空，则去Follow集中找到Follow}(X)\\
+&\text{表达式填入行为}X\text{、列为}\\
+&\text{Follow}(X)\text{中元素的位置，如例1中 }A'\to\varepsilon,\ \text{Follow}(A')=\{\#,d\},\text{ 则在}(A',d)、(A',\#)\text{中填写 }A'\to\varepsilon
+\end{aligned}
+\]
+\[
+\begin{aligned}
+&\text{若 }X\to? \text{ 推导式右侧结果不为空，则在行为}X\text{，列为}\text{First}(?)\text{ 处填写表达式} \\
+&X\to?,\ \text{如 }A\to aA',\text{ 在}(A,a)\text{处填写 }A\to aA'
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\textbf{例2：将下列文法改造为LL(1)文法}\\[4pt]
+&G[V]:
+\begin{cases}
+V\to N\mid N[E] \\
+E\to V\mid V+E \\
+N\to i
+\end{cases}\\[6pt]
+&\text{消除回溯}\\[4pt]
+\begin{aligned}
+V &\to NV' \\
+V' &\to \varepsilon\mid [E] \\
+E &\to VE' \\
+E' &\to \varepsilon\mid +E \\
+N &\to i
+\end{aligned}\\[6pt]
+&\text{求First集、Follow集}\\[4pt]
+\begin{array}{ll}
+\text{First}(V)=\{i\} & \text{Follow}(V)=\{\#,+\} \\
+\text{First}(V')=\{\varepsilon,\,[ \} & \text{Follow}(V')=\{\#,+\} \\
+\text{First}(E)=\{i\} & \text{Follow}(E)=\{\,]\,\} \\
+\text{First}(E')=\{\varepsilon,+\} & \text{Follow}(E')=\{\,]\,\} \\
+\text{First}(N)=\{i\} & \text{Follow}(N)=\{\,[,\#,\,+\}
+\end{array}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\text{对于} \\
+&V'\to \varepsilon\mid [E] \\
+&\text{First}(\varepsilon)\cap\text{First}([)=\emptyset \\
+&\begin{aligned}
+\text{Follow}(V')\cap\text{First}([)
+&=\{\#,+\}\cap\{[\}=\emptyset
+\end{aligned}\\[6pt]
+&\text{对于} \\
+&E'\to \varepsilon\mid +E \\
+&\text{First}(\varepsilon)\cap\text{First}(+)=\emptyset \\
+&\begin{aligned}
+\text{Follow}(E')\cap\text{First}(+)
+&=\{+\}\cap\{\,]=\emptyset
+\end{aligned}\\[6pt]
+&G'[V]\text{符合LL(1)文法}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\text{对于} \\
+&V'\to \varepsilon\mid [E] \\
+&\text{First}(\varepsilon)\cap\text{First}([)=\emptyset \\
+&\begin{aligned}
+\text{Follow}(V')\cap\text{First}([)
+&=\{\#,+\}\cap\{[\}=\emptyset
+\end{aligned}\\[6pt]
+&\text{对于} \\
+&E'\to \varepsilon\mid +E \\
+&\text{First}(\varepsilon)\cap\text{First}(+)=\emptyset \\
+&\begin{aligned}
+\text{Follow}(E')\cap\text{First}(+)
+&=\{+\}\cap\{\,]=\emptyset
+\end{aligned}\\[6pt]
+&G'[V]\text{符合LL(1)文法}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\textbf{例3：对于例1中的文法，给出输入串 }aad\mid\#\text{ 分析过程}\\[4pt]
+&\begin{array}{cccc}
+&\text{推导式(反着压)} \\
+\text{符号栈} & \text{当前输入符号} & \text{输入串} \\
+\hline
+\#A & a & aad\mid\# \\
+\#A'a & a & aad\mid\# \\
+\#A' & a & d\mid\# \\
+\mid BA & a & d\mid\# \\
+\mid BA'a & a & d\mid\# \\
+\mid BA' & d & \mid\# \\
+\mid B & d & \mid\# \\
+\mid B'd & d & \mid\# \\
+\mid B' & \mid & \# \\
+\mid & \mid & \# \\
+\# & \# &
+\end{array}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\textbf{求 select 集：}\\[4pt]
+&\text{select}(A\to \alpha) \\
+&\quad \text{若 }\alpha\text{ 推不出 }\varepsilon,\text{ 则 }\text{select}(A\to \alpha)=\text{First}(\alpha) \\
+&\quad \text{若 }\alpha\text{ 可推出 }\varepsilon,\text{ 则 }\text{select}(A\to \alpha)=\big(\text{First}(\alpha)-\{\varepsilon\}\big)\cup\text{Follow}(A)\\[6pt]
+&\text{可以修正例1中：}\\
+&\text{select}(A'\to AB\mid)=\text{First}(A)=\{a\} \\
+&\text{select}(A'\to \varepsilon)=\{\#,d\} \\
+&\text{select}(A'\to AB\mid)\cap\text{select}(A'\to \varepsilon)=\emptyset \\[4pt]
+&\text{select}(B'\to bB')=\{b\} \\
+&\text{select}(B'\to \varepsilon)=\{\mid\} \\
+&\text{select}(B'\to bB')\cap\text{select}(B'\to \varepsilon)=\emptyset \\[6pt]
+&\text{进而判断LL(1)文法的另一个等价条件为：} \\
+&\text{对任意一个} \\
+&\text{若存在的 }A\to \alpha\mid \beta \text{ 类表达式，} \\
+&\text{且要满足 }\text{select}(A\to \alpha)\cap\text{select}(A\to \beta)=\emptyset
+\end{aligned}
+\]
+
+\subsection*{LR(0)}
+I0 添加小圆点 \par
+小圆点后跟非终结符展开 \par
+小圆点在最后面, 归约 \par
+SLR 归约要 FOLLOW \par
+判断 SLR 看移进符是否在归约集，不在是 SLR, 在不是 \par
+LR(1) 引用展望符 \par
+LALR 合并展望符
+
+
+\[
+\begin{aligned}
+&\textbf{构造LR(0)分析表}\\[4pt]
+&\text{拓广文法}\rightarrow\text{列项目}\rightarrow\text{项目集规范簇}\rightarrow\text{分析表}\\[6pt]
+&\textbf{例1：构造}G[E]:
+\begin{cases}
+E\to E+T\mid T \\
+T\to (E)\mid a
+\end{cases}\text{的LR(0)分析表}\\[6pt]
+&\textbf{拓广文法 }G[E']: \\
+&\begin{aligned}
+&(0)\ E'\to E \\
+&(1)\ E\to E+T \\
+&(2)\ E\to T \\
+&(3)\ T\to (E) \\
+&(4)\ T\to a
+\end{aligned}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\text{所有点位于推导式右侧首位}\\[4pt]
+&\begin{array}{lll}
+\boxed{I_0:\begin{aligned}
+E'&\to \cdot E \\
+E&\to \cdot E+T \\
+E&\to \cdot T \\
+T&\to \cdot (E) \\
+T&\to \cdot a
+\end{aligned}}
+\xrightarrow{E}
+&\boxed{I_1:\begin{aligned}
+E'&\to E\cdot \\
+E&\to E\cdot +T
+\end{aligned}}
+\xrightarrow{+}
+&\boxed{I_5:\begin{aligned}
+T&\to \cdot (E) \\
+E&\to E+\cdot T \\
+T&\to \cdot a
+\end{aligned}}
+\xrightarrow{T}
+\boxed{I_7:E\to E+T\cdot} \\
+\xrightarrow{T}\downarrow
+&&\downarrow(\quad\downarrow a \\
+\boxed{I_2:E\to T\cdot}
+&\xleftarrow{T}
+\boxed{I_3:\begin{aligned}
+T&\to (\cdot E) \\
+E&\to \cdot E+T \\
+E&\to \cdot T \\
+T&\to \cdot a
+\end{aligned}}
+\xrightarrow{E}
+&\boxed{I_6:\begin{aligned}
+T&\to (E\cdot) \\
+E&\to E\cdot +T
+\end{aligned}}
+\xrightarrow{)}
+\boxed{I_8:T\to (E)\cdot} \\
+\downarrow a\quad\downarrow(
+&&\downarrow a \\
+\boxed{I_4:T\to a\cdot}
+&\xleftarrow{a}
+\end{array}\\[6pt]
+&\begin{aligned}
+&\text{点后为非终结符，}\\
+&\text{除了拓广文法的第一项，}\\
+&\text{均加入集合中}\\
+&\text{此时遇到的非终结符}E,\\
+&\text{由}E\to T,\text{又得到一个}T
+\end{aligned}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+&\textbf{再求Action--Goto表}\\[4pt]
+&\begin{array}{c|ccccc|cc}
+\text{状态} & \multicolumn{5}{c|}{\text{Action(终结符)}} & \multicolumn{2}{c}{\text{GOTO(非终结符)}} \\
+& a & + & ( & ) & \# & E & T \\
+\hline
+0 & S_4 & & S_3 & & & 1 & 2 \\
+1 & & S_5 & & & \text{acc} & & \\
+2 & r_2 & r_2 & r_2 & r_2 & r_2 & & \\
+3 & S_4 & & S_3 & & & 6 & 2 \\
+4 & r_4 & r_4 & r_4 & r_4 & r_4 & & \\
+5 & S_4 & & S_3 & & & 7 & \\
+6 & & S_5 & & S_8 & & & \\
+7 & r_1 & r_1 & r_1 & r_1 & r_1 & & \\
+8 & r_3 & r_3 & r_3 & r_3 & r_3 & & \\
+\end{array}\\[6pt]
+&\begin{aligned}
+&\text{点在最后，且找不到可通往其它状态，根据推导式填 }r_i \\
+&\text{状态}\alpha\text{经Action到状态}\beta，\text{则在}(\alpha,a_i)\text{处填写}S_\beta \\
+&\quad a_i \\
+&\text{经GOTO }X\text{到状态}\gamma，\text{则在}(\alpha,X)\text{处填}\gamma \\
+&\text{若状态}\delta\text{下，含有拓广文法中(0)，且为}X'\to X\cdot\text{形式，} \\
+&\quad\text{则在}(\delta,\#)\text{处填写acc}
+\end{aligned}
+\end{aligned}
+\]
+
+\subsection*{SLR(1)}
+
+\subsection*{LR(1)}
+
+\subsection*{语法制导的翻译与属性文法}
+
+\subsection*{S/L 属性文法与翻译模式}
+
+\subsection*{源程序的中间表示}
+
+\subsection*{四元式}
+
+\subsection*{算符优先}
+
+\subsection*{波兰表达式}
