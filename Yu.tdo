@@ -1,13 +1,12 @@
 \contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ 注, 如果最左推导和最右推导画出来两个语法树不同, 则有二义性, 相同则无二义性, 如上图所示。}{23}{section*.10}%
 \contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ 产生式有两条选择: 一个生成 \( \beta \), 一个生成 \( \alpha \), \( \alpha \) 不断进行循环, 生成无数个 \( \alpha \), 因此最终生成 \( \beta \dot {\alpha } \)}{23}{section*.12}%
-\contentsline {todo}{\fcolorbox {Plum}{Plum!25}{\textcolor {Plum!25}{o}}\ The following section needs to be rewritten!}{93}{section*.59}%
-\contentsline {todo}{\fcolorbox {OliveGreen}{OliveGreen!25}{\textcolor {OliveGreen!25}{o}}\ 引用头文件}{119}{section*.131}%
-\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ printf 输出函数}{119}{section*.132}%
-\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ 注意格式化字符串要和数据匹配}{119}{section*.133}%
-\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ The original todo note with changed colours. Here's another line.}{119}{section*.135}%
-\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ Is this correct?}{119}{section*.136}%
-\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ I'm unsure about also!}{119}{section*.137}%
-\contentsline {todo}{\fcolorbox {blue}{blue!25}{\textcolor {blue!25}{o}}\ Change this!}{120}{section*.138}%
-\contentsline {todo}{\fcolorbox {OliveGreen}{OliveGreen!25}{\textcolor {OliveGreen!25}{o}}\ This can help me in chapter seven!}{120}{section*.139}%
-\contentsline {todo}{\fcolorbox {Plum}{Plum!25}{\textcolor {Plum!25}{o}}\ This really needs to be improved!\vspace {-1em}What was I thinking?!}{120}{section*.140}%
-\contentsline {todo}{\fcolorbox {Plum}{Plum!25}{\textcolor {Plum!25}{o}}\ The following section needs to be rewritten!}{120}{section*.141}%
+\contentsline {todo}{\fcolorbox {OliveGreen}{OliveGreen!25}{\textcolor {OliveGreen!25}{o}}\ 引用头文件}{133}{section*.73}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ printf 输出函数}{133}{section*.74}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ 注意格式化字符串要和数据匹配}{133}{section*.75}%
+\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ The original todo note with changed colours. Here's another line.}{133}{section*.77}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ Is this correct?}{133}{section*.78}%
+\contentsline {todo}{\fcolorbox {red}{red!25}{\textcolor {red!25}{o}}\ I'm unsure about also!}{133}{section*.79}%
+\contentsline {todo}{\fcolorbox {blue}{blue!25}{\textcolor {blue!25}{o}}\ Change this!}{134}{section*.80}%
+\contentsline {todo}{\fcolorbox {OliveGreen}{OliveGreen!25}{\textcolor {OliveGreen!25}{o}}\ This can help me in chapter seven!}{134}{section*.81}%
+\contentsline {todo}{\fcolorbox {Plum}{Plum!25}{\textcolor {Plum!25}{o}}\ This really needs to be improved!\vspace {-1em}What was I thinking?!}{134}{section*.82}%
+\contentsline {todo}{\fcolorbox {Plum}{Plum!25}{\textcolor {Plum!25}{o}}\ The following section needs to be rewritten!}{134}{section*.83}%
