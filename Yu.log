@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026/Termux) (preloaded format=xelatex 2026.5.9)  16 JUN 2026 07:18
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026/Termux) (preloaded format=xelatex 2026.6.26)  26 JUN 2026 10:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1442,12 +1442,12 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 ] (./science/cs/code/program/c/yu.tex) [111
 
 ])))
-(./science/cs/gnu/gnuYu.tex [112
+(./science/cs/tools/toolsYu.tex [112
 
 
 
 
-] (./science/cs/gnu/yu.tex) [113
+] (./science/cs/tools/yu.tex) [113
 
 ] (./science/cs/code/program/programYu.tex [114
 
@@ -1526,15 +1526,15 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2022/08/05>
  ***********
 Package rerunfilecheck Info: File `Yu.out' has not changed.
-(rerunfilecheck)             Checksum: EB09924B046C3204DF61931197799C22;3770.
+(rerunfilecheck)             Checksum: D51D3A15545C6C9D5EEBFB9021BBDC2B;3780.
  ) 
 Here is how much of TeX's memory you used:
  38416 strings out of 467992
- 894047 string characters out of 5416968
- 1705784 words of memory out of 5000000
+ 894081 string characters out of 5416967
+ 1705785 words of memory out of 5000000
  66309 multiletter control sequences out of 15000+600000
  638346 words of font info for 122 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  93i,15n,112p,533b,1781s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on Yu.xdv (137 pages, 569960 bytes).
+Output written on Yu.xdv (137 pages, 570040 bytes).
